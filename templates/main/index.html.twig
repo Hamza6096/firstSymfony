@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    {% include "components/navbar.html.twig" %}
+    <div class="container">
+        <h1>Tableau des pays</h1>
+        <div class="d-flex p-5">
+            {% for country in countries %}
+                <div class="card text-white bg-primary mb-3 m-2" style="max-width: 20rem;">
+                    <div class="card-header">Pays </div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ country.name }}</h4>
+                        <p class="card-text">Nb Habitant : {{ country.inhabitants }}</p>
+                        <p class="card-text">Continent : {{ country.Continent }}</p>
+                        <p class="card-text">Capital : {{ country.Capital }}</p>
+
+                    </div>
+                </div>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
