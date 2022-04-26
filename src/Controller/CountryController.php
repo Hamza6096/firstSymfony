@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Country;
 use App\Form\CountryType;
+use App\Form\RegistrationFormType;
 use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,11 @@ class CountryController extends AbstractController
     #[Route('/new', name: 'app_country_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CountryRepository $countryRepository): Response
     {
+        $currentUser = $this->getUser()->getIsAdmin();
+
+        if (!$currentUser){
+            return $this->redirectToRoute('home');
+        }
         $country = new Country();
         $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
@@ -37,6 +43,7 @@ class CountryController extends AbstractController
             'country' => $country,
             'form' => $form,
         ]);
+
     }
 
     #[Route('/{id}', name: 'app_country_show', methods: ['GET'])]
